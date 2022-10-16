@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VueFormulate PoC</title>    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015"></script>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/formulate.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@braid/vue-formulate@2.5.3/dist/snow.min.css">
+</head>
+<body>
+
+    <div id="app">
+        <h1>{{ message }}</h1>
+        <formulate-form 
+            v-model="formValues"
+            @submit="formSubmit"
+        > <!-- v-model is not always required. You will receive the form data in the submit event -->
+
+            <formulate-input name="name" label="What is your name?" validation="required"></formulate-input>
+            <formulate-input name="age" label="How old are you?" validation="required|number|max:120"></formulate-input>
+            <formulate-input type="submit" label="Sign up"></formulate-input>
+        </formulate-form>    
+    </div>
+
+    <script>
+        Vue.use(VueFormulate);
+        new Vue({
+            el: "#app",
+            data: {
+                message: "Hello world!",
+                formValues: {} // v-model is not always required. You will receive the form data in the submit event
+            },
+            // define methods under the `methods` object
+            methods: {
+                formSubmit(e) {
+                    console.log("formSubmit", e);
+                }
+            }
+        });
+    </script>      
+</body>
+</html>
