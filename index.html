@@ -22,7 +22,7 @@
 
             <formulate-input name="name" label="What is your name?" validation="required"></formulate-input>
             <formulate-input name="age" label="How old are you?" validation="required|number|max:120"></formulate-input>
-            <formulate-input type="submit" label="Sign up"></formulate-input>
+            <formulate-input type="submit" label="Send request"></formulate-input>
         </formulate-form>    
     </div>
 
@@ -36,8 +36,15 @@
             },
             // define methods under the `methods` object
             methods: {
-                formSubmit(e) {
-                    console.log("formSubmit", e);
+                formSubmit(e) {      
+                    /* e is a plain object with the form data while this.formValues (mapped v-model) is a managed object that will detect model updates */
+                    console.log("formSubmit", e, this.formValues);
+                    console.log("Let's try async model update!");
+                    setTimeout(() => {
+                        console.log("Async model update now!");
+                        this.formValues.age++; // Increase age
+                        this.message = `Hello ${this.formValues.name}!! It seems it took me a whole year to process your request!!!` ;
+                    }, 2000);
                 }
             }
         });
