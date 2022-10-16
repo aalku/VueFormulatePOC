@@ -22,6 +22,26 @@
 
             <formulate-input name="name" label="What is your name?" validation="required"></formulate-input>
             <formulate-input name="age" label="How old are you?" validation="required|number|max:120"></formulate-input>
+            <formulate-input
+                type="group"
+                name="pets"
+                :repeatable="true"
+                label="Pets"
+                add-label="Add pet"
+            >
+                <formulate-input name="name" label="Name" validation="required"></formulate-input>
+                <formulate-input
+                    name="kind"
+                    :options="{
+                        dog: 'Dog',
+                        cat: 'Cat',
+                        bird: 'Bird',
+                        other: 'Other'
+                        }"
+                    type="select"
+                    label="Kind"
+                ></formulate-input>
+            </formulate-input>
             <formulate-input type="submit" label="Send request"></formulate-input>
         </formulate-form>    
     </div>
@@ -40,10 +60,16 @@
                     /* e is a plain object with the form data while this.formValues (mapped v-model) is a managed object that will detect model updates */
                     console.log("formSubmit", e, this.formValues);
                     console.log("Let's try async model update!");
-                    setTimeout(() => {
+                    setTimeout(() => { // setTimeout is not required, it's just an example
                         console.log("Async model update now!");
                         this.formValues.age++; // Increase age
                         this.message = `Hello ${this.formValues.name}!! It seems it took me a whole year to process your request!!!` ;
+                        console.log("Pets", [...this.formValues.pets].map(p=>({...p})));
+                        // If pets then let one reproduce
+                        if (this.formValues.pets.length > 0) {
+                            let parent = this.formValues.pets[Math.floor(Math.random()*this.formValues.pets.length)]; // Random parent
+                            this.formValues.pets.push({name:parent.name + '.jr', kind:parent.kind});
+                        }
                     }, 2000);
                 }
             }
