@@ -28,7 +28,9 @@
                 :repeatable="true"
                 label="Pets"
                 add-label="Add pet"
+				#default="{ index }"
             >
+				<p>Pet number {{ index }}</p>
                 <formulate-input name="name" label="Name" validation="required"></formulate-input>
                 <formulate-input
                     name="kind"
@@ -52,7 +54,9 @@
             el: "#app",
             data: {
                 message: "Hello world!",
-                formValues: {} // v-model is not always required. You will receive the form data in the submit event
+                formValues: {
+					pets: []
+				} // v-model is not always required. You will receive the form data in the submit event
             },
             // define methods under the `methods` object
             methods: {
@@ -72,7 +76,13 @@
                         }
                     }, 2000);
                 }
-            }
+            },
+			mounted() {
+			    this.$nextTick().then(()=>{
+					// Int groups with 0 items
+					this.formValues.pets = [];
+				});
+			}
         });
     </script>      
 </body>
